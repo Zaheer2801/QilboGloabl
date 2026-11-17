@@ -15,6 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap">
 <style>
+html,body{margin:0}
 /* Layout: royal-blue statement bands alternate with white working sections; giant geometric type carries the brand, everything else stays quiet. */
 :root{
   --blue:#0B2E8F; --blue-deep:#082370; --blue-bright:#1745C9; --blue-soft:#E9EEFB; --blue-line:#C9D4F3;
@@ -28,7 +29,6 @@
   color-scheme:light;
 }
 *{box-sizing:border-box}
-html,body{margin:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
@@ -264,26 +264,82 @@ summary::after{content:"+";color:var(--blue);font-size:28px;line-height:.8;trans
 details[open] summary::after{transform:rotate(45deg)}
 details p{color:var(--muted);padding-bottom:22px;max-width:65ch}
 
-/* Join */
-.join{background:var(--blue);color:#fff;border-radius:32px;padding:48px;display:grid;grid-template-columns:.85fr 1.15fr;gap:44px}
+/* Join: store onboarding */
+.join{background:var(--blue);color:#fff;border-radius:32px;padding:48px;display:grid;grid-template-columns:.8fr 1.2fr;gap:44px;align-items:start}
 .join .eyebrow{color:var(--on-blue-muted)}
 .join h2{font-size:clamp(34px,4.6vw,56px);margin-top:12px}
 .join .lead{margin-top:16px;font-size:16px;color:var(--on-blue-muted)}
-form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.field{display:flex;flex-direction:column;gap:6px;min-width:0}
-.field.full{grid-column:1/-1}
-.join label,.seg-lbl{font-size:13px;color:var(--on-blue-muted);font-weight:500}
-input,select{font:inherit;font-size:15px;color:var(--ink);background:#fff;border:1.5px solid transparent;border-radius:12px;padding:12px 13px;width:100%}
-input:focus,select:focus{outline:none;border-color:#9DB3F5;box-shadow:0 0 0 3px rgba(255,255,255,.35)}
 .seg{display:flex;gap:8px;flex-wrap:wrap;position:relative}
 .seg input{position:absolute;left:0;top:0;width:1px;height:1px;margin:0;opacity:0;pointer-events:none}
 .seg label{font-family:var(--display);font-size:15px;font-weight:700;color:#fff;border:1.5px solid rgba(255,255,255,.45);border-radius:999px;padding:9px 18px;cursor:pointer}
 .seg input:checked+label{background:#fff;color:var(--blue);border-color:#fff}
 .seg input:focus-visible+label{outline:3px solid #fff;outline-offset:3px}
-.form-foot{grid-column:1/-1;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.form-msg{font-size:14px;color:var(--on-blue-muted)}
-.form-msg.err{color:#FFD0D5}
-.form-msg.ok{color:#fff}
+.ob-intent{margin-top:26px}
+.ob-intent .seg-lbl{display:block;font-size:13px;color:var(--on-blue-muted);font-weight:500;margin-bottom:8px}
+.ob-steps{list-style:none;margin:30px 0 0;padding:0;display:grid;gap:4px;counter-reset:obs}
+.ob-steps li{display:flex;align-items:center;gap:12px;padding:8px 0;color:var(--on-blue-muted);font-size:15px;font-weight:500;transition:color .25s}
+.ob-steps li::before{counter-increment:obs;content:counter(obs);flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:14px;border:1.5px solid rgba(255,255,255,.4);transition:all .25s}
+.ob-steps li.on{color:#fff}
+.ob-steps li.on::before{background:#fff;color:var(--blue);border-color:#fff}
+.ob-steps li.done{color:#fff}
+.ob-steps li.done::before{content:"";background:rgba(255,255,255,.18) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/15px no-repeat;border-color:transparent}
+.ob-perks{margin-top:26px;font-size:14px;color:var(--on-blue-muted);display:grid;gap:6px}
+.ob{background:#fff;color:var(--ink);border-radius:22px;padding:30px;box-shadow:0 30px 60px -30px rgba(0,0,0,.45);min-width:0}
+.ob-bar{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:22px}
+.ob-bar i{height:5px;border-radius:9px;background:var(--line);transition:background .3s}
+.ob-bar i.on{background:var(--blue)}
+.ob-k{font-size:13px;font-weight:700;color:var(--blue);letter-spacing:.02em}
+.ob h3{font-family:var(--display);font-size:26px;line-height:1.15;margin:4px 0 4px;color:var(--ink)}
+.ob-sub{color:var(--muted);font-size:15px;margin:0 0 18px}
+.ob-step{display:none}
+.ob-step.on{display:block;animation:obIn .35s ease}
+@keyframes obIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.ob-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ob-f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.ob-f.full{grid-column:1/-1}
+.ob-f>label,.ob-g>b{font-size:13.5px;font-weight:600;color:var(--ink)}
+.ob-f small,.ob-g small{color:var(--faint);font-weight:500}
+.ob input:not([type=radio]):not([type=checkbox]),.ob select,.ob textarea{font:inherit;font-size:15px;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;width:100%}
+.ob textarea{min-height:76px;resize:vertical}
+.ob input:focus,.ob select:focus,.ob textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(23,69,201,.15)}
+.ob input.bad,.ob select.bad{border-color:var(--bad)}
+.ob-g{margin-top:16px}
+.ob-g:first-child{margin-top:0}
+.ob-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.ob-chip{position:relative}
+.ob-chip input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.ob-chip span{display:inline-block;border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;font-size:14px;font-weight:500;background:#fff;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.ob-chip input:checked+span{background:var(--blue);border-color:var(--blue);color:#fff}
+.ob-chip input:focus-visible+span{outline:2px solid var(--blue);outline-offset:2px}
+.ob-chip input:disabled+span{opacity:.45;cursor:not-allowed}
+.ob-goals{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px}
+.ob-goals label{font-size:13px;color:var(--muted);font-weight:500;display:flex;flex-direction:column;gap:5px}
+.ob-pct{position:relative}
+.ob-pct input{padding-right:28px!important}
+.ob-pct::after{content:"%";position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--faint);font-size:14px}
+.ob-review{display:grid;gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:14.5px}
+.ob-review div{display:grid;grid-template-columns:120px 1fr;gap:12px;padding:10px 14px;border-top:1px solid var(--line)}
+.ob-review div:first-child{border-top:0}
+.ob-review dt{color:var(--muted);font-weight:500}
+.ob-review dd{margin:0;overflow-wrap:anywhere}
+.ob-agree{display:flex;gap:10px;align-items:flex-start;margin-top:16px;font-size:14.5px;color:var(--muted)}
+.ob-agree input{width:18px;height:18px;margin-top:3px;accent-color:var(--blue);flex:none}
+.ob-agree a{color:var(--blue);text-decoration:underline}
+.ob-err{color:var(--bad);font-size:14px;margin-top:14px;min-height:0}
+.ob-err:empty{display:none}
+.ob-nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:12px}
+.ob-back{background:none;border:0;font:inherit;font-weight:600;color:var(--muted);cursor:pointer;padding:10px 4px}
+.ob-back[hidden]{display:block;visibility:hidden}
+.ob-next{background:var(--blue);color:#fff;border:0;font-family:var(--display);font-weight:700;font-size:16px;border-radius:999px;padding:13px 26px;cursor:pointer}
+.ob-next:disabled{opacity:.6;cursor:wait}
+.ob-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.ob-done{text-align:center;padding:10px 0}
+.ob-done .tick{width:64px;height:64px;border-radius:50%;margin:0 auto 14px;background:#E6EEFC url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%230B2E8F' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/32px no-repeat}
+.ob-code{display:inline-block;font-family:var(--display);font-weight:800;font-size:24px;color:var(--blue);background:#E6EEFC;border-radius:12px;padding:6px 16px;margin:8px 0 14px;letter-spacing:.02em}
+@media (max-width:600px){.join{padding:26px 12px 12px}.join>div:first-child{padding:0 10px}.ob{padding:22px 18px;border-radius:18px}.ob-grid{grid-template-columns:1fr}.ob-grid.ob-sz{grid-template-columns:1fr 1fr}.ob-goals{grid-template-columns:1fr 1fr}.ob-review div{grid-template-columns:96px 1fr}.ob-steps{display:none}}
+.ob-next-steps{text-align:left;list-style:none;padding:0;margin:8px auto 0;max-width:420px;display:grid;gap:10px;counter-reset:nx;font-size:14.5px}
+.ob-next-steps li{display:flex;gap:10px}
+.ob-next-steps li::before{counter-increment:nx;content:counter(nx);flex:none;width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center;margin-top:1px}
 
 /* Footer */
 footer{padding-block:40px;color:var(--faint);font-size:14px}
@@ -568,6 +624,7 @@ footer .brand .mark{width:26px;height:26px}
 .calc-out .big{font-family:var(--display);font-weight:900;font-size:clamp(52px,6vw,80px);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .calc-out .yr{font-family:var(--display);font-weight:700;font-size:22px}
 .calc-out .x{margin-top:14px;padding-top:16px;border-top:1px solid rgba(255,255,255,.2);font-size:16px}
+.calc-in input[type=range]{font:inherit;font-size:15px;color:var(--ink);background:#fff;border:1.5px solid transparent;border-radius:12px;padding:12px 13px;width:100%}
 .calc-note{margin-top:14px;font-size:13.5px;color:var(--faint)}
 
 /* Footer links */
@@ -1205,28 +1262,102 @@ i.ok{transition-delay:.15s;width:22px;height:22px;border-radius:50%;background:v
       <div class="join on-blue">
         <div>
           <div class="eyebrow">Get started</div>
-          <h2>Join the pilot or book a demo.</h2>
-          <p class="lead">Tell us about your store. We'll reach out by WhatsApp or phone to set up a time.</p>
-        </div>
-        <form id="joinForm" novalidate>
-          <div class="field full">
+          <h2>Register your store.</h2>
+          <p class="lead">Five quick steps, about two minutes. The founding pilot is free for 60 days, and Qilbo never changes your register.</p>
+          <div class="ob-intent">
             <span id="intentLbl" class="seg-lbl">I want to</span>
             <div class="seg" role="radiogroup" aria-labelledby="intentLbl">
-              <input type="radio" name="intent" id="intent-pilot" value="pilot" checked><label for="intent-pilot">Join the pilot</label>
-              <input type="radio" name="intent" id="intent-demo" value="demo"><label for="intent-demo">Book a demo</label>
+              <input type="radio" name="intent" id="intent-pilot" value="pilot" checked form="obForm"><label for="intent-pilot">Join the pilot</label>
+              <input type="radio" name="intent" id="intent-demo" value="demo" form="obForm"><label for="intent-demo">Book a demo first</label>
             </div>
           </div>
-          <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" autocomplete="name" required></div>
-          <div class="field"><label for="f-store">Store name</label><input id="f-store" name="store" autocomplete="organization" required></div>
-          <div class="field"><label for="f-type">Store type</label>
-            <select id="f-type" name="type"><option>Liquor store</option><option>Convenience store</option><option>Smoke / vape shop</option><option>Mixed</option></select></div>
-          <div class="field"><label for="f-pos">Your POS</label>
-            <select id="f-pos" name="pos"><option>NRS</option><option>Clover</option><option>Square</option><option>Modisoft</option><option>Other</option><option>Not sure</option></select></div>
-          <div class="field"><label for="f-phone">Phone or WhatsApp</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" required></div>
-          <div class="field"><label for="f-city">City, state</label><input id="f-city" name="city" autocomplete="address-level2"></div>
-          <div class="form-foot">
-            <button class="btn btn-white" type="submit" id="f-submit">Send request</button>
-            <span class="form-msg" id="formMsg" role="status" aria-live="polite"></span>
+          <ol class="ob-steps" id="obSteps" aria-label="Sign-up steps">
+            <li class="on">Your store</li><li>About you</li><li>How you run it</li><li>Your goals</li><li>Review &amp; send</li>
+          </ol>
+          <div class="ob-perks"><span>No card needed.</span><span>Read-only: it never touches your POS.</span></div>
+        </div>
+
+        <form class="ob" id="obForm" novalidate>
+          <div class="ob-bar" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+          <div class="ob-hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
+
+          <div class="ob-step on" data-s="1">
+            <div class="ob-k">Step 1 of 5</div><h3>Tell us about your store</h3><p class="ob-sub">The store Qilbo will watch for you.</p>
+            <div class="ob-grid">
+              <div class="ob-f full"><label for="ob-store">Store name</label><input id="ob-store" name="store_name" autocomplete="organization" required></div>
+              <div class="ob-g ob-f full" style="margin-top:0"><b>Store type</b><div class="ob-chips"><label class="ob-chip"><input type="radio" name="store_type" value="Liquor store"><span>Liquor store</span></label><label class="ob-chip"><input type="radio" name="store_type" value="Convenience store"><span>Convenience store</span></label><label class="ob-chip"><input type="radio" name="store_type" value="Smoke &amp; vape shop"><span>Smoke &amp; vape shop</span></label><label class="ob-chip"><input type="radio" name="store_type" value="Mixed"><span>Mixed</span></label></div></div>
+              <div class="ob-f full"><label for="ob-addr">Street address <small>optional</small></label><input id="ob-addr" name="address" autocomplete="street-address"></div>
+              <div class="ob-f"><label for="ob-city">City</label><input id="ob-city" name="city" autocomplete="address-level2" required></div>
+              <div class="ob-grid ob-sz" style="gap:10px">
+                <div class="ob-f"><label for="ob-state">State</label><input id="ob-state" name="state" maxlength="2" placeholder="TX" autocomplete="address-level1" required style="text-transform:uppercase"></div>
+                <div class="ob-f"><label for="ob-zip">ZIP</label><input id="ob-zip" name="zip" inputmode="numeric" maxlength="10" autocomplete="postal-code"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ob-step" data-s="2">
+            <div class="ob-k">Step 2 of 5</div><h3>Who runs it?</h3><p class="ob-sub">So we can call you to set up a start date.</p>
+            <div class="ob-grid">
+              <div class="ob-f full"><label for="ob-owner">Your name</label><input id="ob-owner" name="owner_name" autocomplete="name" required></div>
+              <div class="ob-f"><label for="ob-phone">Phone or WhatsApp</label><input id="ob-phone" name="phone" type="tel" autocomplete="tel" required></div>
+              <div class="ob-f"><label for="ob-email">Email <small>optional</small></label><input id="ob-email" name="email" type="email" autocomplete="email"></div>
+              <div class="ob-f full"><label for="ob-time">Best time to call <small>optional</small></label>
+                <select id="ob-time" name="best_time"><option value="">Any time</option><option>Morning</option><option>Afternoon</option><option>Evening</option></select></div>
+            </div>
+          </div>
+
+          <div class="ob-step" data-s="3">
+            <div class="ob-k">Step 3 of 5</div><h3>How you run it</h3><p class="ob-sub">Qilbo reads what your register and distributors already send you.</p>
+            <div class="ob-grid">
+              <div class="ob-f"><label for="ob-pos">Your POS / register</label><select id="ob-pos" name="pos"><option>NRS</option><option>Clover</option><option>Square</option><option>Modisoft</option><option>Verifone / Commander</option><option>Gilbarco Passport</option><option>Lightspeed</option><option>Other</option><option>No POS yet</option></select></div>
+              <div class="ob-f"><label for="ob-reg">Number of registers</label><input id="ob-reg" name="registers" type="number" min="1" max="20" value="1" inputmode="numeric"></div>
+            </div>
+            <div class="ob-g"><b>Does your POS email you a daily sales report?</b><div class="ob-chips"><label class="ob-chip"><input type="radio" name="report_email" value="yes"><span>yes</span></label><label class="ob-chip"><input type="radio" name="report_email" value="no"><span>no</span></label><label class="ob-chip"><input type="radio" name="report_email" value="not sure"><span>not sure</span></label></div></div>
+            <div class="ob-g"><b>Who do you buy from?</b> <small>pick any</small><div class="ob-chips"><label class="ob-chip"><input type="checkbox" name="distributors" value="Southern Glazer's"><span>Southern Glazer's</span></label><label class="ob-chip"><input type="checkbox" name="distributors" value="Breakthru Beverage"><span>Breakthru Beverage</span></label><label class="ob-chip"><input type="checkbox" name="distributors" value="Republic National (RNDC)"><span>Republic National (RNDC)</span></label><label class="ob-chip"><input type="checkbox" name="distributors" value="Johnson Brothers"><span>Johnson Brothers</span></label><label class="ob-chip"><input type="checkbox" name="distributors" value="Wayne Densch"><span>Wayne Densch</span></label><label class="ob-chip"><input type="checkbox" name="distributors" value="Gold Coast"><span>Gold Coast</span></label><label class="ob-chip"><input type="checkbox" name="distributors" value="Coca-Cola / Pepsi"><span>Coca-Cola / Pepsi</span></label><label class="ob-chip"><input type="checkbox" name="distributors" value="Core-Mark / McLane"><span>Core-Mark / McLane</span></label><label class="ob-chip"><input type="checkbox" name="distributors" value="Other"><span>Other</span></label></div></div>
+            <div class="ob-f" style="margin-top:12px"><label for="ob-dother">Others <small>optional</small></label><input id="ob-dother" name="distributors_other" placeholder="Local beer distributor, cash &amp; carry…"></div>
+            <div class="ob-g"><b>Monthly sales, roughly</b><div class="ob-chips"><label class="ob-chip"><input type="radio" name="sales_range" value="Under $30k a month"><span>Under $30k a month</span></label><label class="ob-chip"><input type="radio" name="sales_range" value="$30k – $75k"><span>$30k – $75k</span></label><label class="ob-chip"><input type="radio" name="sales_range" value="$75k – $150k"><span>$75k – $150k</span></label><label class="ob-chip"><input type="radio" name="sales_range" value="$150k – $300k"><span>$150k – $300k</span></label><label class="ob-chip"><input type="radio" name="sales_range" value="Over $300k"><span>Over $300k</span></label></div></div>
+          </div>
+
+          <div class="ob-step" data-s="4">
+            <div class="ob-k">Step 4 of 5</div><h3>Your goals</h3><p class="ob-sub">Qilbo flags anything priced under these margins. You can change them later.</p>
+            <div class="ob-g"><b>Margin goal by category</b>
+              <div class="ob-goals">
+                <label>Spirits<span class="ob-pct"><input name="goal_spirits" type="number" min="5" max="80" value="35" inputmode="numeric"></span></label>
+                <label>Wine<span class="ob-pct"><input name="goal_wine" type="number" min="5" max="80" value="30" inputmode="numeric"></span></label>
+                <label>Beer<span class="ob-pct"><input name="goal_beer" type="number" min="5" max="80" value="20" inputmode="numeric"></span></label>
+                <label>Other<span class="ob-pct"><input name="goal_other" type="number" min="5" max="80" value="30" inputmode="numeric"></span></label>
+              </div></div>
+            <div class="ob-g"><b>What hurts most right now?</b> <small>pick any</small><div class="ob-chips"><label class="ob-chip"><input type="checkbox" name="problems" value="I don't know my real margin"><span>I don't know my real margin</span></label><label class="ob-chip"><input type="checkbox" name="problems" value="Wrong prices at the register"><span>Wrong prices at the register</span></label><label class="ob-chip"><input type="checkbox" name="problems" value="I miss distributor deals"><span>I miss distributor deals</span></label><label class="ob-chip"><input type="checkbox" name="problems" value="Best sellers run out"><span>Best sellers run out</span></label><label class="ob-chip"><input type="checkbox" name="problems" value="Money stuck in dead stock"><span>Money stuck in dead stock</span></label><label class="ob-chip"><input type="checkbox" name="problems" value="Invoices take too long"><span>Invoices take too long</span></label><label class="ob-chip"><input type="checkbox" name="problems" value="Customers ask for things I forget"><span>Customers ask for things I forget</span></label><label class="ob-chip"><input type="checkbox" name="problems" value="Theft, voids or $0 sales"><span>Theft, voids or $0 sales</span></label></div></div>
+            <div class="ob-g"><b>Where should the morning brief go?</b><div class="ob-chips"><label class="ob-chip"><input type="checkbox" name="alerts" value="Telegram" checked><span>Telegram</span></label><label class="ob-chip"><input type="checkbox" name="alerts" value="Email"><span>Email</span></label><label class="ob-chip"><input type="checkbox" name="alerts" value="WhatsApp (coming soon)" disabled><span>WhatsApp (coming soon)</span></label></div></div>
+            <div class="ob-f" style="margin-top:14px"><label for="ob-notes">Anything else? <small>optional</small></label><textarea id="ob-notes" name="notes" maxlength="500"></textarea></div>
+          </div>
+
+          <div class="ob-step" data-s="5">
+            <div class="ob-k">Step 5 of 5</div><h3>Review and send</h3><p class="ob-sub">Check it over. Tap Back to fix anything.</p>
+            <dl class="ob-review" id="obReview"></dl>
+            <label class="ob-agree"><input type="checkbox" name="agree" id="ob-agree"><span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>, and I'm OK with Qilbo calling or texting me about the pilot.</span></label>
+          </div>
+
+          <div class="ob-step" data-s="6">
+            <div class="ob-done">
+              <div class="tick" aria-hidden="true"></div>
+              <h3 id="obDoneTitle">You're on the list</h3>
+              <div style="color:var(--muted)">Your store ID</div>
+              <div class="ob-code" id="obCode">QLB-0000</div>
+              <p class="ob-sub" style="margin-bottom:8px">Keep it handy. Here's what happens next:</p>
+              <ol class="ob-next-steps">
+                <li id="obNs1">We call you within 24 hours to set a start date.</li>
+                <li>You forward your POS daily report and distributor invoices to your Qilbo address. We help.</li>
+                <li>You connect Telegram for your 9:45 AM morning brief.</li>
+                <li>Qilbo runs its first night of checks and sends your first list of fixes.</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="ob-err" id="obErr" role="alert"></div>
+          <div class="ob-nav" id="obNav">
+            <button type="button" class="ob-back" id="obBack" hidden>← Back</button>
+            <button type="submit" class="ob-next" id="obNext">Continue</button>
           </div>
         </form>
       </div>
@@ -1542,14 +1673,68 @@ i.ok{transition-delay:.15s;width:22px;height:22px;border-radius:50%;background:v
     },{once:true});
   });
 
-  var form=document.getElementById('joinForm'), msg=document.getElementById('formMsg');
-  form.addEventListener('submit',function(e){
-    e.preventDefault(); msg.className='form-msg';
-    var missing=[].filter.call(form.querySelectorAll('[required]'),function(i){return !i.value.trim()});
-    if(missing.length){ msg.classList.add('err'); msg.textContent='Please add your '+missing.map(function(i){return i.previousElementSibling.textContent.toLowerCase()}).join(', ')+'.'; missing[0].focus(); return; }
-    var name=form.elements['name'].value.trim().split(' ')[0];
-    msg.classList.add('ok');
-    msg.textContent='Thanks, '+name+'. This preview doesn’t send yet. Sign-ups go live with qilbo.com.';
+  var SIGNUP_API='https://discount-liquor.zshaik2801.workers.dev/api/public/signup';
+  var ob=document.getElementById('obForm'), obErr=document.getElementById('obErr'), obNext=document.getElementById('obNext'), obBack=document.getElementById('obBack');
+  var obStep=1, obLast=5;
+  function obVal(n){var el=ob.elements[n]; if(!el) return ''; if(el.length!==undefined&&!el.tagName){var c=[].filter.call(el,function(i){return i.checked}); return c.length?c[0].value:''} return (el.value||'').trim()}
+  function obList(n){return [].filter.call(ob.querySelectorAll('input[name="'+n+'"]'),function(i){return i.checked}).map(function(i){return i.value})}
+  function obShow(n){
+    obStep=n;
+    [].forEach.call(ob.querySelectorAll('.ob-step'),function(s){s.classList.toggle('on',+s.dataset.s===n)});
+    [].forEach.call(ob.querySelectorAll('.ob-bar i'),function(b,i){b.classList.toggle('on',i<Math.min(n,obLast))});
+    [].forEach.call(document.querySelectorAll('#obSteps li'),function(li,i){li.classList.toggle('on',i+1===n);li.classList.toggle('done',i+1<n)});
+    obBack.hidden=(n===1||n>obLast); document.getElementById('obNav').style.display=n>obLast?'none':'';
+    obNext.textContent=n===obLast?(obVal('intent')==='demo'?'Request my demo':'Register my store'):'Continue';
+    obErr.textContent='';
+    if(n===obLast) obReview();
+  }
+  function obCheck(n){
+    var e=[], bad=[];
+    [].forEach.call(ob.querySelectorAll('.bad'),function(i){i.classList.remove('bad')});
+    function need(name,msg,ok){ if(!ok){e.push(msg); var el=ob.querySelector('[name="'+name+'"]'); if(el&&el.type!=='radio'){el.classList.add('bad'); bad.push(el)} } }
+    if(n===1){ need('store_name','Add your store name.',obVal('store_name')); need('store_type','Pick your store type.',obVal('store_type')); need('city','Add your city.',obVal('city')); need('state','Use the 2-letter state, like TX.',/^[A-Za-z]{2}$/.test(obVal('state'))); }
+    if(n===2){ need('owner_name','Add your name.',obVal('owner_name')); need('phone','Add a phone number we can call.',obVal('phone').replace(/\D/g,'').length>=7); var em=obVal('email'); need('email','That email doesn’t look right.',!em||/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)); }
+    if(n===5){ if(!document.getElementById('ob-agree').checked) e.push('Please agree to the Terms and Privacy Policy.'); }
+    obErr.textContent=e.join(' '); if(bad[0]) bad[0].focus();
+    return !e.length;
+  }
+  function obEsc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function obReview(){
+    var d=obList('distributors'); if(obVal('distributors_other')) d.push(obVal('distributors_other'));
+    var rows=[
+      ['Wants', obVal('intent')==='demo'?'A demo first':'The 60-day pilot'],
+      ['Store', obVal('store_name')+' · '+obVal('store_type')],
+      ['Location', [obVal('address'),obVal('city'),obVal('state').toUpperCase(),obVal('zip')].filter(Boolean).join(', ')],
+      ['Owner', [obVal('owner_name'),obVal('phone'),obVal('email')].filter(Boolean).join(' · ')],
+      ['POS', obVal('pos')+' · '+(obVal('registers')||1)+' register(s)'],
+      ['Buys from', d.join(', ')||'—'],
+      ['Sales', obVal('sales_range')||'—'],
+      ['Margin goals', 'Spirits '+obVal('goal_spirits')+'% · Wine '+obVal('goal_wine')+'% · Beer '+obVal('goal_beer')+'% · Other '+obVal('goal_other')+'%'],
+      ['Biggest pains', obList('problems').join(' · ')||'—'],
+      ['Morning brief', obList('alerts').join(', ')||'—']
+    ];
+    document.getElementById('obReview').innerHTML=rows.map(function(r){return '<div><dt>'+r[0]+'</dt><dd>'+obEsc(r[1])+'</dd></div>'}).join('');
+  }
+  obBack.addEventListener('click',function(){ if(obStep>1) obShow(obStep-1); });
+  [].forEach.call(document.querySelectorAll('input[name="intent"]'),function(r){r.addEventListener('change',function(){ if(obStep===obLast){obShow(obLast)} })});
+  ob.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!obCheck(obStep)) return;
+    if(obStep<obLast){ obShow(obStep+1); var top=ob.getBoundingClientRect().top; if(top<70) window.scrollBy({top:top-90,behavior:'instant'}); return; }
+    var body={source:'website', intent:obVal('intent'), website:obVal('website'), agree:true};
+    ['store_name','store_type','address','city','state','zip','owner_name','phone','email','best_time','pos','registers','report_email','distributors_other','sales_range','goal_spirits','goal_wine','goal_beer','goal_other','notes'].forEach(function(k){body[k]=obVal(k)});
+    body.state=body.state.toUpperCase(); body.distributors=obList('distributors'); body.problems=obList('problems'); body.alerts=obList('alerts');
+    obNext.disabled=true; obNext.textContent='Sending…';
+    fetch(SIGNUP_API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)})
+      .then(function(r){return r.json().catch(function(){return {ok:false,errors:['Something went wrong. Try again.']}})})
+      .then(function(r){
+        obNext.disabled=false;
+        if(!r.ok){ obShow(obLast); obErr.textContent=(r.errors||['Something went wrong. Try again.']).join(' '); return; }
+        document.getElementById('obCode').textContent=r.code;
+        document.getElementById('obDoneTitle').textContent=body.intent==='demo'?'Demo requested':'You’re on the list';
+        obShow(6);
+      })
+      .catch(function(){ obNext.disabled=false; obShow(obLast); obErr.textContent='Couldn’t reach Qilbo. Check your connection and try again, or text us.'; });
   });
 })();
 </script>
